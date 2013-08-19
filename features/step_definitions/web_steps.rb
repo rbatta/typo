@@ -43,9 +43,33 @@ Given /^the blog is set up$/ do
                 :state => 'active'})
 end
 
+Given /^the blog is created for a user$/ do
+  Blog.default.update_attributes!({:blog_name => 'Teh Blag',
+                                   :base_url => 'http://localhost:3000'});
+  Blog.default.save!
+  User.create!({:login => 'user1',
+                :password => 'aaaaaaaa',
+                :email => 'joe@snow.com',
+                :profile_id => 2,
+                :name => 'user1',
+                :state => 'active'})
+end
+
 And /^I am logged into the admin panel$/ do
   visit '/accounts/login'
   fill_in 'user_login', :with => 'admin'
+  fill_in 'user_password', :with => 'aaaaaaaa'
+  click_button 'Login'
+  if page.respond_to? :should
+    page.should have_content('Login successful')
+  else
+    assert page.has_content?('Login successful')
+  end
+end
+
+And /^I am logged into the Dashboard$/ do
+  visit '/accounts/login'
+  fill_in 'user_login', :with => 'user1'
   fill_in 'user_password', :with => 'aaaaaaaa'
   click_button 'Login'
   if page.respond_to? :should

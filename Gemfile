@@ -57,7 +57,8 @@ group :development, :test do
   gem 'cucumber-rails-training-wheels'
   gem 'database_cleaner'
   gem 'capybara'
-  gem 'ZenTest'
+  gem 'ZenTest', '4.8.3'
   gem 'launchy'
   gem 'railroady'
+  gem "ruby-graphviz", "~> 1.0.9"
 end
