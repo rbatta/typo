@@ -2,5 +2,11 @@
 <%= form_tag(form_action, :id => "#{form_type}_form", :enctype => "multipart/form-data", :class => className) do %>
 
   <%= render :partial => "form" %>
+  <% if @admin == 1 %>
+  	<h4>Merge Articles</h4>
+  	<div class='editor-left'>
+  		<%= text_field 'article', 'id', {:autocomplete => 'off', :style => 'width: 100%'} %>
+  	</div>
+  <% end %>
 
 <% end %>

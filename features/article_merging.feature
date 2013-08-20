@@ -27,13 +27,9 @@ Feature: Article Merging
   Scenario: Admin user can see Merge Articles
     When I log in as bob
     And I follow "All Articles"
-    And show me the page
     And I follow "Cats"
     Then I should see "New article"
-    And I should see "Merge Articles" # this isn't working yet
-
-  
-
+    And I should see "Merge Articles"
 
   #Scenario: Not really an admin
   #  Given I am a user
