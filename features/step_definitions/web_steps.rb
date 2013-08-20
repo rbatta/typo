@@ -31,6 +31,29 @@ module WithinHelpers
 end
 World(WithinHelpers)
 
+Given /the blog is created for the following users/ do |users_table|
+
+  users_table.hashes.each do |user|
+    Blog.default.update_attributes!({:blog_name => 'Teh Blag',
+                                   :base_url => 'http://localhost:3000'});
+    Blog.default.save!
+    User.create!(user)
+  end
+end
+
+And /^I log in as (.*)$/ do |person|
+  visit '/accounts/login'
+  fill_in 'user_login', with: User.find_by_name(person).login
+  fill_in 'user_password', with: 'password'
+  click_button 'Login'
+  if page.respond_to? :should
+    page.should have_content('Login successful')
+  else
+    assert page.has_content?('Login successful')
+  end
+end
+
+=begin 
 Given /^the blog is set up$/ do
   Blog.default.update_attributes!({:blog_name => 'Teh Blag',
                                    :base_url => 'http://localhost:3000'});
@@ -49,7 +72,7 @@ Given /^the blog is created for a user$/ do
   Blog.default.save!
   User.create!({:login => 'user1',
                 :password => 'aaaaaaaa',
-                :email => 'joe@snow.com',
+                :email => 'joe1@snow.com',
                 :profile_id => 2,
                 :name => 'user1',
                 :state => 'active'})
@@ -78,6 +101,7 @@ And /^I am logged into the Dashboard$/ do
     assert page.has_content?('Login successful')
   end
 end
+=end
 
 # Single-line step scoper
 When /^(.*) within (.*[^:])$/ do |step, parent|
