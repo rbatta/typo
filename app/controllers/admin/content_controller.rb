@@ -28,7 +28,6 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def edit
-    debugger
     @admin = current_user.profile_id
     @article = Article.find(params[:id])
     unless @article.access_by? current_user
@@ -241,5 +240,8 @@ class Admin::ContentController < Admin::BaseController
 
   def setup_resources
     @resources = Resource.by_created_at
+  end
+
+  def merge_articles
   end
 end
