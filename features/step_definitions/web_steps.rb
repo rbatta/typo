@@ -53,6 +53,12 @@ And /^I log in as (.*)$/ do |person|
   end
 end
 
+When /^I post an article about cats$/ do
+  step("I fill in \"article_title\" with \"Cats\"")
+  step("I fill in \"article__body_and_extended_editor\" with \"I <3 cats\"")
+  step("I press \"Publish\"")
+end
+
 =begin 
 Given /^the blog is set up$/ do
   Blog.default.update_attributes!({:blog_name => 'Teh Blag',

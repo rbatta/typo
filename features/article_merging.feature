@@ -10,35 +10,27 @@ Feature: Article Merging
     | admin  | password | b@example.com   | 1          | bob     | active   |
     | user1  | password | c@example.com   | 2          | fred    | active   |
 
-  Scenario: Non-admin logs in to post article
     When I log in as fred
     And I am on the new article page
-    When I fill in "article_title" with "Cats"
-    And I fill in "article__body_and_extended_editor" with "I <3 cats"
-    And I press "Publish"
-    Then I should be on the admin content page
-    When I go to the home page
-    Then I should see "Cats"
-    When I follow "Cats"
-    Then I should see "I <3 cats"  
-    
-  Scenario: Non-admin cannot see Merge button
-    When I log in as fred
-    And I follow "All Articles"
-    And show me the page
-    And I follow "Edit"
-    Then I should see "New article"
-    And I should see "Publish"
-    And the "article_title" field should contain "Cats"
-    And I should not see "Merge with this Article"
+    And I post an article about cats
+    And I follow "Log out"
+    Then I should see "Successfully logged out"
 
-  Scenario: Admin user can see Merge button
+  Scenario: Non-admin shouldn't see Merge Articles
+    Given I log in as fred
+    And I follow "All Articles"
+    And I follow "Cats"
+    Then I should see "New article"
+    And the "article_title" field should contain "Cats"
+    And I should not see "Merge Articles"  
+
+  Scenario: Admin user can see Merge Articles
     When I log in as bob
     And I follow "All Articles"
     And show me the page
     And I follow "Cats"
     Then I should see "New article"
-    And I should see "Merge Articles" button
+    And I should see "Merge Articles" # this isn't working yet
 
   
 
