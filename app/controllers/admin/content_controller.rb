@@ -41,25 +41,26 @@ class Admin::ContentController < Admin::BaseController
   def merge
     @article = Article.find(params[:id])
     @merging_article = Article.find(params[:merge_with])
+    debugger
     new_article = Article.create!(title: @article.title,
                                   body: @article.body+"\n"+@merging_article.body,
                                   user_id: @article.user_id,
                                   author: @article.author,
                                   published_at: @article.published_at,
                                   published: true)
-    debugger
-    Article.find(:first, :conditions => ['published = ? AND published_at > ?', true, @request_time],
-  :order => "published_at ASC" )
-    new_article.save!
-    #new_article.feedback << @article.feedback
-    #new_article.feedback << @merging_article.feedback
-    #new_article.comments << @article.comments
-    #new_article.comments << @merging_article.comments
+    
 
+
+    Article.find(:first, :conditions => ['published = ? AND published_at > ?', true, @request_time], :order => "published_at ASC" )
+    new_article.save!
+
+    new_article.comments << @article.comments
+    new_article.comments << @merging_article.comments
+
+    @article.destroy
+    @merging_article.destroy 
     redirect_to '/admin/content/'
-    #@article.body = @article.body + @merging_article.body
-    #@article.save!
-    #redirect_to :action => 'edit', :id => params[:id]
+    
   end
 
   def destroy

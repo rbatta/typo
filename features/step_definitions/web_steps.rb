@@ -59,7 +59,7 @@ When /^I post an article about cats$/ do
   step("I press \"Publish\"")
 end
 
-=begin 
+
 Given /^the blog is set up$/ do
   Blog.default.update_attributes!({:blog_name => 'Teh Blag',
                                    :base_url => 'http://localhost:3000'});
@@ -107,7 +107,7 @@ And /^I am logged into the Dashboard$/ do
     assert page.has_content?('Login successful')
   end
 end
-=end
+
 
 # Single-line step scoper
 When /^(.*) within (.*[^:])$/ do |step, parent|
