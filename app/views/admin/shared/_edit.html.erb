@@ -2,14 +2,8 @@
 <%= form_tag(form_action, :id => "#{form_type}_form", :enctype => "multipart/form-data", :class => className) do %>
 
   <%= render :partial => "form" %>
-  <% if @admin == 1 %>
-  	<h4><%= _("Merge Articles")%></h4>
-		<% form_for @article, url: {action: "merge_articles"} do |f| %>
-    	<p>
-      	<%= f.text_field :merge_with, value: 'Article ID' %>
-      	<%= submit_tag 'Merge' %>
-    	</p>
-		<% end %>
-  <% end %>
 
 <% end %>
+
+<%= render "admin/shared/merge", { :form_type => "article", :form_action => { :action => "merge", :id => params[:id] , :class => ('autosave')} }  %>
+

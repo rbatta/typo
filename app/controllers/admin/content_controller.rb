@@ -38,6 +38,12 @@ class Admin::ContentController < Admin::BaseController
     new_or_edit
   end
 
+  def merge
+    @article = Article.find(params[:id])
+    debugger
+    redirect_to :action => 'index'
+  end
+
   def destroy
     @record = Article.find(params[:id])
 
@@ -141,6 +147,7 @@ class Admin::ContentController < Admin::BaseController
   def real_action_for(action); { 'add' => :<<, 'remove' => :delete}[action]; end
 
   def new_or_edit
+    debugger
     id = params[:id]
     id = params[:article][:id] if params[:article] && params[:article][:id]
     @article = Article.get_or_build_article(id)
@@ -242,6 +249,5 @@ class Admin::ContentController < Admin::BaseController
     @resources = Resource.by_created_at
   end
 
-  def merge_articles
-  end
+
 end
