@@ -42,14 +42,15 @@ class Admin::ContentController < Admin::BaseController
     @article = Article.find(params[:id])
     @merging_article = Article.find(params[:merge_with])
     new_article = Article.create!(title: @article.title,
-                                  body: @article.body+@merging_article.body,
+                                  body: @article.body+"\n"+@merging_article.body,
                                   user_id: @article.user_id,
                                   author: @article.author,
-                                  settings: @article.settings,
                                   published_at: @article.published_at,
-                                  state: "published")
+                                  published: true)
     debugger
-    
+    Article.find(:first, :conditions => ['published = ? AND published_at > ?', true, @request_time],
+  :order => "published_at ASC" )
+    new_article.save!
     #new_article.feedback << @article.feedback
     #new_article.feedback << @merging_article.feedback
     #new_article.comments << @article.comments
