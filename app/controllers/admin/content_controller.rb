@@ -40,8 +40,25 @@ class Admin::ContentController < Admin::BaseController
 
   def merge
     @article = Article.find(params[:id])
+    @merging_article = Article.find(params[:merge_with])
+    new_article = Article.create!(title: @article.title,
+                                  body: @article.body+@merging_article.body,
+                                  user_id: @article.user_id,
+                                  author: @article.author,
+                                  settings: @article.settings,
+                                  published_at: @article.published_at,
+                                  state: "published")
     debugger
-    redirect_to :action => 'index'
+    
+    #new_article.feedback << @article.feedback
+    #new_article.feedback << @merging_article.feedback
+    #new_article.comments << @article.comments
+    #new_article.comments << @merging_article.comments
+
+    redirect_to '/admin/content/'
+    #@article.body = @article.body + @merging_article.body
+    #@article.save!
+    #redirect_to :action => 'edit', :id => params[:id]
   end
 
   def destroy
@@ -147,7 +164,6 @@ class Admin::ContentController < Admin::BaseController
   def real_action_for(action); { 'add' => :<<, 'remove' => :delete}[action]; end
 
   def new_or_edit
-    debugger
     id = params[:id]
     id = params[:article][:id] if params[:article] && params[:article][:id]
     @article = Article.get_or_build_article(id)
