@@ -52,11 +52,12 @@ class Admin::ContentController < Admin::BaseController
 
 
     Article.find(:first, :conditions => ['published = ? AND published_at > ?', true, @request_time], :order => "published_at ASC" )
-    new_article.save!
+    #new_article.save!
 
     new_article.comments << @article.comments
     new_article.comments << @merging_article.comments
-
+    new_article.save!
+    
     @article.destroy
     @merging_article.destroy 
     redirect_to '/admin/content/'
