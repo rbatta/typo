@@ -46,17 +46,11 @@ class Admin::ContentController < Admin::BaseController
                                   body: @article.body+"\n"+@merging_article.body,
                                   user_id: @article.user_id,
                                   author: @article.author,
-                                  published_at: @article.published_at,
                                   published: true)
-    
-    #Article.find(:first, :conditions => ['published = ? AND published_at > ?', true, @request_time], :order => "published_at ASC" )
-    #new_article.save!
 
     new_article.comments = @article.comments + @merging_article.comments
-    new_article.save!
     @article = Article.find(@article.id)
     @merging_article = Article.find(@merging_article.id)
-    debugger
     @article.destroy
     @merging_article.destroy
     new_article.save! 
