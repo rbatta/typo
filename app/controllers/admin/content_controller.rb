@@ -55,6 +55,14 @@ class Admin::ContentController < Admin::BaseController
     @merging_article.destroy
     new_article.save! 
     redirect_to '/admin/content/'
+
+    # ALTERNATELY: new_article.comments << @article.comments 
+    # once article comments are << into the new one, they still retain their comments in the cache
+    # with the exception that the foreign key points to the new article
+    # but if you delete the comments, its pulling from the cached one and ALL comments are del
+    # so need to 'reload' the articles to ensure comments are now "emptied out"
+    # THEN and ONLY then can they be destroyed!
+    # ...for the greater gooooood
     
   end
 

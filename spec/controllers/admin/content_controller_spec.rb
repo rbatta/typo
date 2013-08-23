@@ -484,12 +484,17 @@ describe Admin::ContentController do
     describe 'edit action' do
 
       it 'should edit article' do
-        get :edit, 'id' => @article.id
+        get :edit, 'id' => @article.id 
         response.should render_template('new')
         assigns(:article).should_not be_nil
         assigns(:article).should be_valid
         response.should contain(/body/)
         response.should contain(/extended content/)
+      end
+
+      it 'should merge 2 articles' do
+        @article2 = Factory(:article)
+        get :merge, 'id' => @article.id, 'merge_with' => @article2.id
       end
 
       it 'should update article by edit action' do
