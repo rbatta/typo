@@ -53,12 +53,19 @@ And /^I log in as (.*)$/ do |person|
   end
 end
 
-When /^I post an article about cats$/ do
-  step("I fill in \"article_title\" with \"Cats\"")
-  step("I fill in \"article__body_and_extended_editor\" with \"I <3 cats\"")
+When /^I post an article about (.*)$/ do |word| 
+  step("I fill in \"article_title\" with \"#{word.capitalize}\"")
+  step("I fill in \"article__body_and_extended_editor\" with \"I <3 #{word}!\"")
   step("I press \"Publish\"")
 end
 
+When /^I post a comment about (.*)$/ do |word|
+  step("I fill in \"comment_author\" with \"asdf\"")
+  step("I fill in \"comment_email\" with \"asdf\"")
+  step("I fill in \"comment_url\" with \"asdf\"")
+  step("I fill in \"comment_body\" with \"I <3 #{word} too!\"")
+  step("I press \"comment\"")
+end
 
 Given /^the blog is set up$/ do
   Blog.default.update_attributes!({:blog_name => 'Teh Blag',
