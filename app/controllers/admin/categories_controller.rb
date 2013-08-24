@@ -25,12 +25,14 @@ class Admin::CategoriesController < Admin::BaseController
 
   def new_or_edit
     @categories = Category.find(:all)
-    if params[:id].nil?
-      @category = Category.new
-    else
-      @category = Category.find(params[:id])
-    end
+    @category = if params[:id].nil? then Category.new else Category.find(params[:id]) end
     @category.attributes = params[:category]
+    # http://stackoverflow.com/questions/2174419/ruby-ternary-operator-without-else
+    # because it just doesn't like
+    # @category = params[:id].nil? Category.new : Category.find(params[:id])
+    # ALTERNATIVE: aside from the usual big if/else statement...
+    # @category = Category.find(params[:id]) unless params[:id].nil?
+    # @category = Category.new unless params[:id]
 
     if request.post?
       respond_to do |format|
