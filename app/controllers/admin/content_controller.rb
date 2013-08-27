@@ -42,18 +42,13 @@ class Admin::ContentController < Admin::BaseController
     @article = Article.find(params[:id])
     @merging_article = Article.find(params[:merge_with])
     
-    new_article = Article.create!(title: @article.title,
-                                  body: @article.body+"\n"+@merging_article.body,
-                                  user_id: @article.user_id,
-                                  author: @article.author,
-                                  published: true)
+    new_article = Article.merging(params[:id], params[:merge_with])
 
-    new_article.comments = @article.comments + @merging_article.comments
     @article = Article.find(@article.id)
     @merging_article = Article.find(@merging_article.id)
     @article.destroy
     @merging_article.destroy
-    new_article.save! 
+    #new_article.save! 
     redirect_to '/admin/content/'
 
     # ALTERNATELY: new_article.comments << @article.comments 

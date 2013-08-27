@@ -492,9 +492,29 @@ describe Admin::ContentController do
         response.should contain(/extended content/)
       end
 
+      it 'should display merge section' do
+        get :edit, id: @article.id
+        response.should render_template('merge')
+      end
+
+      it 'should call the right controller action' do
+        @article2 = Factory(:article)
+        Article.should_receive(:merging).with(@article.id, @article2.id)
+        get :merge, 'id' => @article.id, 'merge_with' => @article2.id
+      end
+
       it 'should merge 2 articles' do
         @article2 = Factory(:article)
         get :merge, 'id' => @article.id, 'merge_with' => @article2.id
+      end
+
+      it 'should render the page with merged info' do
+        @article2 = Factory(:article)
+        fake_merge = mock('Article')
+        Article.stub(:merging).and_return(fake_merge)
+        get :merge, id: @article.id, merge_with: @article2.id
+        #assigns(:new_article).should == fake_merge
+        pending "what am i assigning?"
       end
 
       it 'should update article by edit action' do

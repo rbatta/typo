@@ -71,6 +71,17 @@ class Article < Content
     end
   end
 
+  def self.merging(article1_id, article2_id)
+    article1 = Article.find(article1_id)
+    article2 = Article.find(article2_id)
+    Article.create!(title: article1.title,
+                    body: article1.body + "\n" + article2.body,
+                    user_id: article1.user_id,
+                    author: article1.author,
+                    published: true,
+                    comments: article1.comments + article2.comments)
+  end
+
   def set_permalink
     return if self.state == 'draft'
     self.permalink = self.title.to_permalink if self.permalink.nil? or self.permalink.empty?
